@@ -5,29 +5,31 @@ using UnityEngine.AI;
 
 public class Attack : State
 {
-    
+    private float timer;
+
     public Attack(GameObject _npc, NavMeshAgent _agent, Animator _animator, Transform _player, Transform[] _waypoints) : base(_npc, _agent, _animator, _player, _waypoints)
     {
         stateName = STATE.ATTACK;
+        agent.isStopped = true;
     }
 
     public override void Enter()
     {
-        agent.isStopped = true;
+        timer = 0;
         animator.SetTrigger("attack");
         base.Enter();
     }
 
     public override void Update()
     {
-        
-        float distanceToPlayer = Vector3.Distance(npc.transform.position, player.position);
 
-        if (distanceToPlayer > 2.0f) 
+        timer += Time.deltaTime;
+        if (timer > 2)
         {
-            nextState = new Chase(npc, agent, animator, player, waypoints);
+            nextState = new Patrol(npc, agent, animator, player, waypoints);
             stage = EVENT.EXIT;
         }
+
     }
 
     public override void Exit()

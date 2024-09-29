@@ -5,8 +5,8 @@ using UnityEngine.AI;
 
 public class Idle : State
 {
-    float timer;
     
+        private float timer;
 
 
     public Idle(GameObject _npc, NavMeshAgent _agent, Animator _animator, Transform _player, Transform[] _waypoints) : base(_npc, _agent, _animator, _player, _waypoints)
@@ -16,6 +16,7 @@ public class Idle : State
 
     public override void Enter()
     {
+        timer = 0;
         agent.isStopped = true;
         animator.SetTrigger("idle");
         base.Enter();

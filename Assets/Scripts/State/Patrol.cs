@@ -16,41 +16,38 @@ public class Patrol :State
 
     public override void Enter()
     {
-        float lastDist = Mathf.Infinity;
-
-        for(int i = 0; i < waypoints.Length; i++)
-        {
-            Transform thisWP = waypoints[i];
-            float distance = Vector3.Distance(npc.transform.position, thisWP.position);
-            if(distance < lastDist)
-            {
-                currentIndex = i - 1;
-                lastDist = distance;
-            }
-        }
-        animator.SetTrigger("walk");
         base.Enter();
+        currentIndex = 0;
+        agent.SetDestination(waypoints[currentIndex].position);
+        animator.SetTrigger("walk");
+       
+        
     }
 
     public override void Update()
     {
-        if(agent.remainingDistance < 1)
+        
+        if (agent.remainingDistance < 1f && !agent.pathPending)
         {
-            if (currentIndex >= waypoints.Length - 1)
-                currentIndex = 0;
-            else
-                currentIndex++;
+           
+            currentIndex++;
 
+            
+            if (currentIndex >= waypoints.Length)
+                currentIndex = 0;
+
+           
             agent.SetDestination(waypoints[currentIndex].position);
         }
 
+        
         if (CanSeePlayer())
         {
             nextState = new Chase(npc, agent, animator, player, waypoints);
             stage = EVENT.EXIT;
         }
-
     }
+
 
     public override void Exit()
     {

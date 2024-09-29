@@ -22,20 +22,6 @@ public class Chase : State
         base.Enter();
     }
 
-    /*public override void Update()
-    {
-        agent.SetDestination(player.position);
-        if (agent.hasPath)
-        {
-
-            if (!CanSeePlayer())
-            {
-                nextState = new Idle(npc, agent, animator, player, waypoints);
-                stage = EVENT.EXIT;
-            }
-        
-        }
-    }*/
 
     public override void Update()
     {
@@ -52,7 +38,7 @@ public class Chase : State
             }
             else if (!CanSeePlayer())
             {
-                nextState = new Idle(npc, agent, animator, player, waypoints);
+                nextState = new Patrol(npc, agent, animator, player, waypoints);
                 stage = EVENT.EXIT;
             }
         }

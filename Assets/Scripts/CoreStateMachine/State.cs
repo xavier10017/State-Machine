@@ -52,7 +52,7 @@ public class State
         stage = EVENT.EXIT;
     }
 
-    public State Process()
+   /* public State Process()
     {
         if(stage == EVENT.ENTER)
         {
@@ -66,6 +66,23 @@ public class State
         {
             Exit();
             return nextState;
+        }
+
+        return this;
+    }*/
+    public State Process()
+    {
+        switch (stage)
+        {
+            case EVENT.ENTER:
+                Enter();
+                break;
+            case EVENT.UPDATE:
+                Update();
+                break;
+            case EVENT.EXIT:
+                Exit();
+                return nextState;
         }
 
         return this;
